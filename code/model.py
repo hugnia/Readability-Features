@@ -8,13 +8,14 @@ import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from tensorflow import keras
-from tensorflow.keras import regularizers
-import tensorflow.keras.backend as K
-from tensorflow.python.keras.callbacks import EarlyStopping, ModelCheckpoint
-from tensorflow.python.keras.mixed_precision.experimental import policy
+from keras import regularizers
+import keras.backend as K
+from keras.mixed_precision import policy
+from keras.callbacks import ModelCheckpoint
 from tensorflow.python.util import tf_inspect
 from transformers import BertTokenizer
-from sklearn.metrics import plot_roc_curve, roc_auc_score
+#from transformers import AutoTokenizer
+from sklearn.metrics import RocCurveDisplay, roc_auc_score
 
 
 # Define the basic bert class
@@ -180,8 +181,9 @@ label = []
 token = []
 segment = []
 
-tokenizer_path = '../Relevant Library/cased_L-12_H-768_A-12/cased_L-12_H-768_A-12'
-tokenizer = BertTokenizer.from_pretrained(tokenizer_path)
+#tokenizer_path = '../Relevant Library/cased_L-12_H-768_A-12/cased_L-12_H-768_A-12'
+#tokenizer = BertTokenizer.from_pretrained(tokenizer_path)
+tokenizer = BertTokenizer.from_pretrained('google/bert_uncased_L-12_H-768_A-12')
 print('Successfully load the BertTokenizer')
 
 
@@ -317,7 +319,7 @@ def create_NetT():
     dense2 = keras.layers.Dense(units=16, activation='relu', name='random_detail')(drop)
     dense3 = keras.layers.Dense(1, activation='sigmoid')(dense2)
     model = keras.Model(structure_input, dense3)
-    rms = keras.optimizers.RMSprop(lr=0.0015)
+    rms = keras.optimizers.legacy.RMSprop(lr=0.0015)
     # model.summary()
     model.compile(optimizer=rms, loss='binary_crossentropy', metrics=['acc', 'Recall', 'Precision', 'AUC',
                                                                       'TruePositives', 'TrueNegatives',
@@ -340,7 +342,7 @@ def create_NetS():
     dense2 = keras.layers.Dense(units=16, activation='relu', name='random_detail')(drop)
     dense3 = keras.layers.Dense(1, activation='sigmoid')(dense2)
     model = keras.Model([token_input, segment_input], dense3)
-    rms = keras.optimizers.RMSprop(lr=0.0015)
+    rms = keras.optimizers.legacy.RMSprop(lr=0.0015)
     # model.summary()
     model.compile(optimizer=rms, loss='binary_crossentropy', metrics=['acc', 'Recall', 'Precision', 'AUC',
                                                                       'TruePositives', 'TrueNegatives',
@@ -362,7 +364,7 @@ def create_NetV():
     dense2 = keras.layers.Dense(units=16, activation='relu', name='random_detail')(drop)
     dense3 = keras.layers.Dense(1, activation='sigmoid')(dense2)
     model = keras.Model(image_input, dense3)
-    rms = keras.optimizers.RMSprop(lr=0.0015)
+    rms = keras.optimizers.legacy.RMSprop(lr=0.0015)
     # model.summary()
     model.compile(optimizer=rms, loss='binary_crossentropy', metrics=['acc', 'Recall', 'Precision', 'AUC',
                                                                       'TruePositives', 'TrueNegatives',
@@ -406,7 +408,7 @@ def create_VST_model():
     dense2 = keras.layers.Dense(units=16, activation='relu', name='random_detail')(drop)
     dense3 = keras.layers.Dense(1, activation='sigmoid')(dense2)
     model = keras.Model([structure_input, token_input, segment_input, image_input], dense3)
-    rms = keras.optimizers.RMSprop(lr=0.0015)
+    rms = keras.optimizers.legacy.RMSprop(lr=0.0015)
     # model.summary()
     model.compile(optimizer=rms, loss='binary_crossentropy', metrics=['acc', 'Recall', 'Precision', 'AUC',
                                                                       'TruePositives', 'TrueNegatives',
@@ -448,7 +450,7 @@ def create_random_forest_classifier():
 
     dense1 = keras.layers.Dense(units=64, activation='relu', kernel_regularizer=regularizers.l2(0.001))(concatenated)
     model_random_forest = keras.Model([structure_input, token_input, segment_input, image_input], dense1)
-    rms = keras.optimizers.RMSprop(lr=0.0015)
+    rms = keras.optimizers.legacy.RMSprop(lr=0.0015)
     model_random_forest.compile(optimizer=rms, loss='binary_crossentropy', metrics=['acc', recall, precision])
     return model_random_forest
 

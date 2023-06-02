@@ -1,0 +1,1506 @@
+snip_id,task,snippet
+1,"A happy number is defined by the following Sequence: Starting with any positive integer, replace the number by the sum of the squares of its digits in base-ten, and repeat the process until the number either equals 1 (where it will stay), or it loops endlessly in a cycle that does not include 1. Those numbers for which this process ends in 1 are happy numbers, while those that do not end in 1 are sad numbers.
+
+For example, 19 is happy, as the associated Sequence is:
+1 of 2nd degree + 9 of 2nd degree = 82
+8 of 2nd degree + 2 of 2nd degree = 68
+6 of 2nd degree + 8 of 2nd degree = 100
+1 of 2nd degree + 0 of 2nd degree + 0 of 2nd degree = 1
+Print all the happy numbers from 1 to 1,000 inclusive, each on their own line.","public class HappyNumbers {
+    public static void main(String[] args) {
+        for (int i = 1; i <= 1000; i++) {
+            int n = i;
+            while (n != 1 && n != 4) {
+                int sum = 0;
+                while (n > 0) {
+                    int digit = n % 10;
+                    sum += digit * digit;
+                    n /= 10;
+                }
+                n = sum;
+            }
+            if (n == 1) {
+                System.out.println(i);
+            }
+        }
+    }
+}
+    "
+2,"A Leyland number is of the form (x of degree y) + (y of degree x) where 1 < y ≤ x.
+
+For example, 8 is a Leyland number because 2 of degree 2 + 2 of degree 2 = 8.
+
+Print all the Leyland numbers from 1 to 100,000,000,000 inclusive, each on their own line.","public class LeylandNumbers {
+    public static void main(String[] args) {
+        long limit = 100000000000L;
+
+        for (long x = 2; x * x <= limit; x++) {
+            for (long y = 2; y < x; y++) {
+                long num = (long) (Math.pow(x, y) + Math.pow(y, x));
+
+                if (num <= limit) {
+                    System.out.println(num);
+                } else {
+                    break;
+                }
+            }
+        }
+    }
+}
+    "
+3,"A Niven number is a positive integer that is divisible by the sum of its digits.
+
+Print all the Niven numbers from 1 to 10,000 inclusive, each on their own line.","public class NivenNumbers {
+    public static void main(String[] args) {
+        for (int i = 1; i <= 10000; i++) {
+            int sum = 0;
+            int num = i;
+            while (num > 0) {
+                sum += num % 10;
+                num /= 10;
+            }
+            if (i % sum == 0) {
+                System.out.println(i);
+            }
+        }
+    }
+}
+    "
+4,"A number is a divisor of another number if it can divide into it with no remainder.
+
+Print the positive divisors of each number from 1 to 100 inclusive, on their own line, with each divisor separated by a space.","public class Divisors {
+    public static void main(String[] args) {
+        for(int i = 1; i <= 100; i++) {
+            System.out.print(""Divisors of "" + i + "": "");
+            for(int j = 1; j <= i; j++) {
+                if(i % j == 0) {
+                    System.out.print(j + "" "");
+                }
+            }
+            System.out.println();
+        }
+    }
+}
+    "
+5,"A pangram is a sentence that uses every letter of a given alphabet.
+
+Write a program that will receive various sentences as arguments and print those that are valid pangrams, meaning they use all letters from A to Z, case insensitive.","public class PangramValidator{
+    public static void main(String[] args) {
+        for(int i=0; i<args.length;i++){
+            boolean[] alphaList = new boolean[26];
+            int index = 0;
+            String input = args[i].toLowerCase();
+            for(int j = 0; j < input.length(); j++) {
+                if(input.charAt(j) >= 'a' && input.charAt(j) <= 'z') {
+                    index = input.charAt(j) - 'a';
+                }
+                alphaList[index] = true;
+            }
+            boolean pangram = true;
+            for(int k=0;k<26;k++){
+                if(!alphaList[k]){
+                    pangram = false;
+                    break;
+                }
+            }
+            if(pangram){
+                System.out.println(args[i]);
+            }
+        }
+    }
+}
+    "
+6,"A pernicious number is a positive number where the sum of its binary expansion is a prime number.
+
+For example, 5 is a pernicious number since 5 = (101 base-2) and 1 + 1 = 2, which is prime.
+
+Print all the pernicious numbers from 0 to 10,000 inclusive, each on their own line.","public class PerniciousNumbers {
+    public static void main(String[] args) {
+        for (int i = 0; i <= 10000; i++) {
+            if (isPernicious(i)) {
+                System.out.println(i);
+            }
+        }
+    }
+
+    public static boolean isPernicious(int n) {
+        String binary = Integer.toBinaryString(n);
+        int sum = 0;
+        for (int i = 0; i < binary.length(); i++) {
+            sum += Integer.parseInt(String.valueOf(binary.charAt(i)));
+        }
+        return isPrime(sum);
+    }
+
+    public static boolean isPrime(int n) {
+        if (n <= 1) {
+            return false;
+        }
+        for (int i = 2; i <= Math.sqrt(n); i++) {
+            if (n % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+    "
+7,"A quine is a non-empty computer program which takes no input and produces a copy of its own source code as its only output. Produce such a program.
+
+Trailing whitespace is NOT stripped from the output for this hole. (Consequently, if your submission doesn't pass, try adding a line break at the end.)","public class Quine {
+    public static void main(String[] args) {
+        char q = 34;
+        String[] lines = {""public class Quine {"",
+                ""  public static void main(String[] args) {"",
+                ""    char q = 34;"",
+                ""    String[] lines = {"",
+                ""    };"",
+                ""    for (int i = 0; i < 4; i++) {"",
+                ""      System.out.println(lines[i]);"",
+                ""    }"",
+                ""    for (String s : lines) {"",
+                ""      System.out.println(q + s + q + ',');"",
+                ""    }"",
+                ""    for (int i = 5; i < lines.length; i++) {"",
+                ""      System.out.println(lines[i]);"",
+                ""    }"",
+                ""  }"",
+                ""}""
+        };
+        for (int i = 0; i < 4; i++) {
+            System.out.println(lines[i]);
+        }
+        for (String s : lines) {
+            System.out.println(q + s + q + ',');
+        }
+        for (int i = 5; i < lines.length; i++) {
+            System.out.println(lines[i]);
+        }
+    }
+}
+    "
+8,"A Smith number is a composite number whose digit sum is equal to the sum of the digits of its prime factors.
+
+One example of a Smith number is the number 666 = 2 × 3 × 3 × 37, since 6 + 6 + 6 = 2 + 3 + 3 + (3 + 7) = 18.
+
+Print all the Smith numbers from 0 to 10,000 inclusive, each on their own line.","public class SmithNumber {
+    public static void main(String[] args) {
+        for (int i = 4; i <= 10000; i++) {
+            int digitSum = sumOfDigits(i);
+            int primeSum = sumOfDigits(primeFactors(i));
+            if (digitSum == primeSum) {
+                System.out.println(i);
+            }
+        }
+    }
+
+    public static int sumOfDigits(int n) {
+        int sum = 0;
+        while (n > 0) {
+            sum += n % 10;
+            n /= 10;
+        }
+        return sum;
+    }
+
+    public static int primeFactors(int n) {
+        int sum = 0;
+        for (int i = 2; i <= n; i++) {
+            while (n % i == 0) {
+                sum += sumOfDigits(i);
+                n /= i;
+            }
+        }
+        return sum;
+    }
+}
+    "
+9,"A vampire number is a non-negative number that can be factored into two numbers (fangs) each with half as many digits as the original where the two factors contain all the digits of the original, in any order. One but not both fangs may have trailing zeros.
+
+For example 1260 = 21×60, 1395 = 15×93, 1435 = 35×41, 1530 = 30×51, etc.
+
+Print all the vampire numbers from 1 to 1,000,000 inclusive, each on their own line.
+
+Be careful with the algorithmic complexity of your solution to avoid timing out.","import java.util.*;
+
+public class VampireNumbers {
+    public static void main(String[] args) {
+        for (int i = 1000; i <= 9999; i++) {
+            if (isVampireNumber(i)) {
+                System.out.println(i);
+            }
+        }
+    }
+
+    public static boolean isVampireNumber(int n) {
+        int[] digits = getDigits(n);
+        for (int i = 10; i <= 99; i++) {
+            if (n % i == 0) {
+                int j = n / i;
+                int[] fangs = getDigits(i, j);
+                if (arraysEqual(digits, fangs)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static int[] getDigits(int n) {
+        int[] digits = new int[4];
+        for (int i = 0; i < 4; i++) {
+            digits[i] = n % 10;
+            n /= 10;
+        }
+        return digits;
+    }
+
+    public static int[] getDigits(int a, int b) {
+        int[] digits = new int[4];
+        for (int i = 0; i < 2; i++) {
+            int[] temp = getDigits(i == 0 ? a : b);
+            digits[i*2] = temp[0];
+            digits[i*2+1] = temp[1];
+        }
+        return digits;
+    }
+
+    public static boolean arraysEqual(int[] a, int[] b) {
+        Arrays.sort(a);
+        Arrays.sort(b);
+        return Arrays.equals(a, b);
+    }
+}"
+10,"An abundant number is a number for which the sum of its proper divisors (divisors not including the number itself) is greater than the number itself. For example 12 is abundant because its proper divisors are 1, 2, 3, 4, and 6 which add up to 16.
+
+Print all the abundant numbers from 1 to 1,000 inclusive, each on their own line.","public class AbundantNumbers {
+
+    public static void main(String[] args) {
+        for (int i = 1; i <= 1000; i++) {
+            int sum = 0;
+            for (int j = 1; j <= (int) Math.sqrt(i); j++) {
+                if (i % j == 0 && j != i) {
+                    sum += j;
+                    if (i / j != j && i / j != i) {
+                        sum += i / j;
+                    }
+                }
+            }
+            if (sum > i) {
+                System.out.println(i);
+            }
+        }
+    }
+}
+    "
+11,"An emirp (prime spelled backwards) is a prime number that results in a different prime when its decimal digits are reversed. For example both 13 and 31 are emirps, but 131 is not.
+
+Print all the emirp numbers from 1 to 10,000 inclusive, each on their own line.","public class EmirpFinder {
+
+    public static boolean isPrime(int num) {
+        if(num < 2) {
+            return false;
+        }
+        for (int i = 2; i <= Math.sqrt(num); i++) {
+            if (num % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static int reverseInt(int num) {
+        int reversed = 0;
+        while (num != 0) {
+            int digit = num % 10;
+            reversed = reversed * 10 + digit;
+            num /= 10;
+        }
+        return reversed;
+    }
+
+    public static void main(String[] args) {
+        for (int i = 1; i <= 10000; i++) {
+            if(isPrime(i) && isPrime(reverseInt(i)) && i != reverseInt(i)) {
+                System.out.println(i);
+            }
+        }
+    }
+
+}
+    "
+12,"An evil number is a non-negative number that has an even number of 1s in its binary expansion.
+
+Print all the evil numbers from 0 to 1,000 inclusive, each on their own line.","public class EvilNumbers {
+    public static void main(String[] args) {
+        for(int i = 0; i <= 1000; i++) {
+            int count = 0;
+            String binary = Integer.toBinaryString(i);
+            for(int j = 0; j < binary.length(); j++) {
+                if(binary.charAt(j) == '1') {
+                    count++;
+                }
+            }
+            if(count % 2 == 0) {
+                System.out.println(i);
+            }
+        }
+    }
+}
+    "
+13,"An odious number is a non-negative number that has an odd number of 1s in its binary expansion.
+
+Print all the odious numbers from 0 to 1,000 inclusive, each on their own line.","public class OdiousNumbers {
+    public static void main(String[] args) {
+        for(int i = 0; i <= 1000; i++){
+            if(countOnes(i) % 2 == 1){
+                System.out.println(i);
+            }
+        }
+    }
+
+    public static int countOnes(int num){
+        int ones = 0;
+        while(num > 0){
+            ones += num % 2;
+            num /= 2;
+        }
+        return ones;
+    }
+}
+    "
+14,"Calculate the check digit for these incomplete ISBNs. If the check digit would be 10, write ""X"" instead.
+
+The check digit of a-bcdef-ghi-? is computed as − 10a − 9b − 8c − … − 2i, modulo 11. Dashes may occur in varying positions and are ignored.","import java.util.Scanner;
+
+public class ISBNChecker {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print(""Enter incomplete ISBN: "");
+        String isbn = input.nextLine().replaceAll(""-"", """");
+
+        int sum = 0;
+        for (int i = 0; i < 9; i++) {
+            int digit = Integer.parseInt(String.valueOf(isbn.charAt(i)));
+            sum += (10 - i) * digit;
+        }
+
+        int checkDigit = (11 - (sum % 11));
+        String output;
+        if (checkDigit == 10) {
+            output = ""X"";
+        } else {
+            output = String.valueOf(checkDigit);
+        }
+        System.out.println(""The check digit is: "" + output);
+    }
+}
+    "
+15,"Catalan’s constant is a mathematical constant equal to 1/1 − 1/3² + 1/5² − 1/7² + 1/9² − …
+
+Print Catalan’s constant to the first 1,000 decimal places.","import java.math.BigDecimal;
+
+public class CatalanConstant {
+    public static void main(String[] args) {
+        BigDecimal one = BigDecimal.ONE;
+        BigDecimal two = BigDecimal.valueOf(2);
+        BigDecimal three = BigDecimal.valueOf(3);
+        BigDecimal four = BigDecimal.valueOf(4);
+        BigDecimal five = BigDecimal.valueOf(5);
+        BigDecimal seven = BigDecimal.valueOf(7);
+        BigDecimal nine = BigDecimal.valueOf(9);
+        BigDecimal constant = one.divide(one, 1000, BigDecimal.ROUND_HALF_UP);
+        BigDecimal i = two;
+
+        while (i.compareTo(BigDecimal.valueOf(2001)) < 0) {
+            if (i.remainder(four).compareTo(two) == 0) {
+                constant = constant.subtract(one.divide(i.pow(2), 1000, BigDecimal.ROUND_HALF_UP));
+            } else {
+                constant = constant.add(one.divide(i.pow(2), 1000, BigDecimal.ROUND_HALF_UP));
+            }
+            i = i.add(BigDecimal.ONE);
+        }
+
+        System.out.println(constant);
+    }
+}
+    "
+16,"Draw 7 cubes in increasing size using ""╱"" (U+2571) for the diagonal edges, ""│"" (U+2502) for the vertical edges, ""─"" (U+2500) for the horizontal edges, and ""█"" (U+2588) for the vertices. The cubes should range from size 1 to size 7 with a blank line between each cube. A size 1 cube should look like:
+
+    █────█
+ ╱         ╱ │
+█────█   │
+│           │  █
+│           │╱
+█────█","public class CubeDraw {
+    public static void main(String[] args) {
+        for (int size = 1; size <= 7; size++) {
+            drawCube(size);
+            System.out.println();
+        }
+    }
+
+    private static void drawCube(int size) {
+        int width = size * 2 - 1;
+        int height = size * 2;
+        int midY = height / 2;
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                boolean atEdge = x == 0 || x == width - 1 || y == 0 || y == height - 1;
+                boolean isTop = y < midY;
+                boolean isBottom = y > midY;
+
+                if (atEdge) {
+                    System.out.print(""█"");
+                } else if (isTop && x == y + 1) {
+                    System.out.print(""╱"");
+                } else if (isTop && x == width - y - 2) {
+                    System.out.print(""│"");
+                } else if (isBottom && x == y - midY) {
+                    System.out.print(""│"");
+                } else if (isBottom && x == width - y - midY - 1) {
+                    System.out.print(""╱"");
+                } else {
+                    System.out.print("" "");
+                }
+            }
+            System.out.println();
+        }
+    }
+}
+    "
+17,"Draw a size ascending range of Christmas trees using asterisks, ranging from size 3 to size 9, each tree separated by a blank line.
+
+A size 3 tree should look like this, with a single centered asterisk for the trunk:
+
+   *
+  ***
+ *****
+   *","public class ChristmasTree {
+    public static void main(String[] args) {
+        for(int size=3; size<=9; size++){
+            int spaces = size - 2;
+            int asterisks = 1;
+            for(int i=1; i<=size; i++){
+                for(int j=1; j<=spaces+1; j++){
+                    System.out.print("" "");
+                }
+                for(int j=1; j<=asterisks; j++){
+                    System.out.print(""*"");
+                }
+                System.out.println();
+                spaces--;
+                asterisks += 2;
+            }
+            for(int i=1; i<=(size-2); i++){
+                System.out.print("" "");
+            }
+            System.out.println(""*"");
+            System.out.println();
+        }
+    }
+}
+    "
+18,"Draw a size ascending range of diamonds using the numbers 1 to 9, ranging from size 1 to size 9, each diamond separated by a blank line.
+
+A size 1 diamond should look like this, a single centered 1:
+         1
+With the largest size 9 diamond looking like this:
+
+                 1
+               121
+             12321
+           1234321
+         123454321
+      12345654321
+     1234567654321
+   123456787654321
+ 12345678987654321
+   123456787654321
+     1234567654321
+       12345654321
+         123454321
+           1234321
+             12321
+               121
+                 1","public class Diamond {
+
+    public static void main(String[] args) {
+        int size = 9;
+        for (int i = 1; i <= size; i++) {
+            int space = size - i;
+            int numCount = i * 2 - 1;
+            for (int j = 0; j < space; j++) {
+                System.out.print("" "");
+            }
+            for (int k = 1; k <= numCount; k++) {
+                System.out.print(k > i ? (numCount - k + 1) : k);
+            }
+            System.out.println();
+        }
+        for (int i = size - 1; i >= 1; i--) {
+            int space = size - i;
+            int numCount = i * 2 - 1;
+            for (int j = 0; j < space; j++) {
+                System.out.print("" "");
+            }
+            for (int k = 1; k <= numCount; k++) {
+                System.out.print(k > i ? (numCount - k + 1) : k);
+            }
+            System.out.println();
+        }
+    }
+}
+    "
+19,"For each fraction argument a/b, print its decimal expansion. If the decimal expands infinitely, print the finite part followed by the repeating part in parenthesis.","import java.util.Scanner;
+
+public class FractionToDecimal {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print(""Enter number of fractions: "");
+        int n = input.nextInt();
+        for (int i = 0; i < n; i++) {
+            System.out.print(""Enter fraction (a/b): "");
+            String fraction = input.next();
+            int a = Integer.parseInt(fraction.split(""/"")[0]);
+            int b = Integer.parseInt(fraction.split(""/"")[1]);
+            int q = a / b;
+            int r = a % b;
+            StringBuilder decimal = new StringBuilder();
+            decimal.append(q);
+            decimal.append(""."");
+            int count = 0;
+            while (r != 0 && count < 15) {
+                r *= 10;
+                q = r / b;
+                r = r % b;
+                decimal.append(q);
+                count++;
+            }
+            if (r == 0) {
+                System.out.println(decimal);
+            } else {
+                String nonRepeating = decimal.substring(0, decimal.length() - count - 1);
+                String repeating = decimal.substring(decimal.length() - count - 1);
+                System.out.println(nonRepeating + ""("" + repeating + "")"");
+            }
+        }
+        input.close();
+    }
+}
+    "
+20,"For each fraction argument a/b, reduce it to its simplest form.","import java.util.Scanner;
+
+public class FractionReduction {
+    public static int gcd(int a, int b) {
+        if (b == 0) {
+            return a;
+        } else {
+            return gcd(b, a % b);
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int a, b, g;
+        String[] input;
+        while (sc.hasNextLine()) {
+            input = sc.nextLine().split(""/"");
+            a = Integer.parseInt(input[0]);
+            b = Integer.parseInt(input[1]);
+            g = gcd(a, b);
+            System.out.println(a/g + ""/"" + b/g);
+        }
+    }
+}
+    "
+21,"For each integer argument print the integer spelled out in English.
+
+For example: 748 becomes seven hundred and forty-eight.
+
+The integers will be in the range of 0 (zero) to 1,000 (one thousand) inclusive.","public class NumberToWords {
+    public static void main(String[] args) {
+        for (String arg: args) {
+            int number = Integer.parseInt(arg);
+            System.out.println(numberToWords(number));
+        }
+    }
+
+    private static String numberToWords(int number) {
+        if (number == 0) {
+            return ""zero"";
+        }
+
+        String[] onesPlace = {"""", ""one"", ""two"", ""three"", ""four"", ""five"", ""six"", ""seven"", ""eight"", ""nine"", ""ten"", ""eleven"", ""twelve"", ""thirteen"", ""fourteen"", ""fifteen"", ""sixteen"", ""seventeen"", ""eighteen"", ""nineteen""};
+
+        String[] tensPlace = {"""", """", ""twenty"", ""thirty"", ""fourty"", ""fifty"", ""sixty"", ""seventy"", ""eighty"", ""ninety""};
+
+        String words = """";
+
+        if (number / 1000 > 0) {
+            words += numberToWords(number / 1000) + "" thousand "";
+            number %= 1000;
+        }
+
+        if (number / 100 > 0) {
+            words += onesPlace[number / 100] + "" hundred "";
+            number %= 100;
+        }
+
+        if (number >= 20) {
+            words += tensPlace[number / 10] + "" "";
+            number %= 10;
+        }
+
+        if (number > 0) {
+            words += onesPlace[number] + "" "";
+        }
+
+        return words.trim();
+    }
+}
+    "
+22,"For each integer argument, print the argument and its ordinal suffix (e.g. 1st, 2nd, 3rd, 112th).
+
+The integers will be in the range of 0 to 999 inclusive.","public class OrdinalSuffix {
+
+    public static void main(String[] args) {
+        for (int i = 0; i < args.length; i++) {
+            int num = Integer.parseInt(args[i]);
+            String suffix;
+            int mod100 = num % 100;
+            if (mod100 >= 11 && mod100 <= 13) {
+                suffix = ""th"";
+            } else {
+                switch (num % 10) {
+                    case 1:
+                        suffix = ""st"";
+                        break;
+                    case 2:
+                        suffix = ""nd"";
+                        break;
+                    case 3:
+                        suffix = ""rd"";
+                        break;
+                    default:
+                        suffix = ""th"";
+                        break;
+                }
+            }
+            System.out.println(num + suffix);
+        }
+    }
+}
+    "
+23,"For each numeric argument in Arabic numerals, print the same number in Roman numerals.
+
+You may use either ASCII or UTF-8 (U+2160 to U+2188) for Roman numerals.
+
+The numbers range from 1 to 3999 inclusive.","public class ArabicToRoman {
+
+    public static void main(String[] args) {
+        for (String arg : args) {
+            int num = Integer.parseInt(arg);
+            if (num < 1 || num > 3999) {
+                System.out.println(""Invalid input: "" + num);
+                continue;
+            }
+            System.out.println(num + "" in Roman numerals: "" + toRoman(num));
+        }
+    }
+
+    private static final String[] ROMAN_NUMERALS = {""M"", ""CM"", ""D"", ""CD"", ""C"", ""XC"", ""L"", ""XL"", ""X"", ""IX"", ""V"", ""IV"", ""I""};
+    private static final int[] VALUES = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+
+    public static String toRoman(int num) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < VALUES.length; i++) {
+            while (num >= VALUES[i]) {
+                sb.append(ROMAN_NUMERALS[i]);
+                num -= VALUES[i];
+            }
+        }
+        return sb.toString();
+    }
+}
+    "
+24,"Given a date in the YYYY-MM-DD format between 1583-01-01 and 9999-12-31 inclusive, output the English name of the corresponding day of the week.","import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Scanner;
+
+public class DayOfWeekFinder {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(""Enter the date in YYYY-MM-DD format"");
+        String dateInput = scanner.nextLine();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(""yyyy-MM-dd"");
+        LocalDate date = LocalDate.parse(dateInput, formatter);
+        DayOfWeek dayOfWeek = date.getDayOfWeek();
+        System.out.println(dayOfWeek);
+    }
+}
+    "
+25,"Given a string, output the hexdump of the string as given by the xxd utility using the default settings, as described below.
+
+Divide up the input string into groups of 16 bytes (16 octets). For each group, print in order:
+
+The (hexadecimal, lowercase) index of the starting octet, padded with zeros to eight hexadecimal digits
+A single colon (:), followed by a single space.
+8 space-separated pairs of octets, with each pair printed as 4 hexadecimal digits
+Spaces to pad to 51 bytes
+The original 16 bytes, except with newline replaced with full stop (.)","import java.util.Scanner;
+
+public class HexDump {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String input = sc.nextLine();
+        int length = input.length();
+        int currentIndex = 0;
+        while (currentIndex < length) {
+            StringBuilder hexdump = new StringBuilder();
+            // index of the starting octet
+            String hexIndex = Integer.toHexString(currentIndex);
+            hexIndex = (""00000000"" + hexIndex).substring(hexIndex.length());
+            hexdump.append(hexIndex);
+            hexdump.append("": "");
+
+            // 8 octets in a group
+            int groupSize = 8;
+            for (int i = 0; i < groupSize; i++) {
+                if (currentIndex + i < length) {
+                    // octet to hexadecimal
+                    String octet = Integer.toHexString(input.charAt(currentIndex + i) & 0xFF);
+                    octet = (octet.length() < 2) ? ""0"" + octet : octet;
+                    hexdump.append(octet);
+                    hexdump.append("" "");
+                } else {
+                    hexdump.append(""   "");
+                }
+            }
+            hexdump.append("" "");
+
+            // original 16 bytes
+            for (int i = 0; i < groupSize; i++) {
+                if (currentIndex + i < length) {
+                    char c = input.charAt(currentIndex + i);
+                    hexdump.append((c == '\n') ? ""."" : c);
+                } else {
+                    hexdump.append("" "");
+                }
+            }
+            System.out.println(hexdump);
+            currentIndex += groupSize;
+        }
+    }
+}"
+26,"In the Gregorian calendar, a leap year is created by extending February to 29 days in order to keep the calendar year synchronized with the astronomical year. These longer years occur in years which are multiples of 4, with the exception of centennial years that aren’t multiples of 400.
+
+Write a program to print all the leap years from the year 1800 up to and including 2400.","public class LeapYearPrinter {
+
+    public static void main(String[] args) {
+        for (int year = 1800; year <= 2400; year++) {
+            if (isLeapYear(year)) {
+                System.out.println(year);
+            }
+        }
+    }
+
+    private static boolean isLeapYear(int year) {
+        if (year % 4 != 0) {
+            return false;
+        } else if (year % 100 != 0) {
+            return true;
+        } else if (year % 400 != 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+}
+    "
+27,"Pascal’s triangle is a triangular pattern of integers formed by the binomial coefficients.
+
+Print the first 20 rows of Pascal’s triangle.","public class PascalTriangle {
+    public static void main(String[] args) {
+
+        //define number of rows
+        int rows = 20;
+
+        //iterating through rows
+        for(int i = 0; i < rows; i++) {
+            int number = 1;
+            System.out.printf(""%"" + (rows - i) * 2 + ""s"", """");
+            for(int j = 0; j <= i; j++) {
+                System.out.printf(""%4d"", number);
+                number = number * (i - j) / (j + 1);
+            }
+            System.out.println();
+        }
+    }
+}
+    "
+28,"Print 2π=τ (tau) to the first 1,000 decimal places.","import java.math.BigDecimal;
+
+public class TauCalculator {
+    public static void main(String[] args) {
+        BigDecimal tau = BigDecimal.valueOf(2).multiply(BigDecimal.valueOf(Math.PI));
+        System.out.printf(""%.1000f"", tau);
+    }
+}"
+29,"Print a 10×10 grid of the numbers 0 to 99 inclusive. Starting at the top left the numbers should spiral clockwise towards the centre, be right aligned, and have a space between each number.
+
+The full grid should look like this:
+
+ 0  1  2  3  4  5  6  7  8  9
+35 36 37 38 39 40 41 42 43 10
+34 63 64 65 66 67 68 69 44 11
+33 62 83 84 85 86 87 70 45 12
+32 61 82 95 96 97 88 71 46 13
+31 60 81 94 99 98 89 72 47 14
+30 59 80 93 92 91 90 73 48 15
+29 58 79 78 77 76 75 74 49 16
+28 57 56 55 54 53 52 51 50 17
+27 26 25 24 23 22 21 20 19 18","public class SpiralGrid {
+    public static void main(String[] args) {
+        int n = 10;
+        int[][] grid = new int[n][n];
+        int count = 0;
+        int rowStart = 0, rowEnd = n-1, colStart = 0, colEnd = n-1;
+
+        while (rowStart <= rowEnd && colStart <= colEnd) {
+            for (int i=colStart; i<=colEnd; i++) {
+                grid[rowStart][i] = count++;
+            }
+            rowStart++;
+
+            for (int i=rowStart; i<=rowEnd; i++) {
+                grid[i][colEnd] = count++;
+            }
+            colEnd--;
+
+            if (rowStart <= rowEnd) {
+                for (int i=colEnd; i>=colStart; i--) {
+                    grid[rowEnd][i] = count++;
+                }
+                rowEnd--;
+            }
+
+            if (colStart <= colEnd) {
+                for (int i=rowEnd; i>=rowStart; i--) {
+                    grid[i][colStart] = count++;
+                }
+                colStart++;
+            }
+        }
+
+        for (int i=0; i<n; i++) {
+            for (int j=0; j<n; j++) {
+                System.out.printf(""%3d "", grid[i][j]);
+            }
+            System.out.println();
+        }
+    }
+}
+    "
+30,"Print all the prime numbers from 1 to 10,000 inclusive, each on their own line.","public class PrimeNumbers {
+    public static void main(String[] args) {
+        System.out.println(""Prime numbers from 1 to 10,000 inclusive:"");
+        for (int i = 2; i <= 10000; i++) {
+            boolean isPrime = true;
+            for (int j = 2; j <= Math.sqrt(i); j++) {
+                if (i % j == 0) {
+                    isPrime = false;
+                    break;
+                }
+            }
+            if (isPrime) {
+                System.out.println(i);
+            }
+        }
+    }
+}
+    "
+31,"Print 𝑒 (Euler’s number) to the first 1,000 decimal places.","import java.math.BigDecimal;
+
+public class EulerNumber {
+    public static void main(String[] args) {
+        BigDecimal e = BigDecimal.valueOf(2);
+        BigDecimal i = BigDecimal.valueOf(2);
+        BigDecimal factorial = BigDecimal.valueOf(2);
+
+        for (int j = 2; j <= 1000; j++) {
+            factorial = factorial.multiply(BigDecimal.valueOf(j));
+            e = e.add(BigDecimal.ONE.divide(factorial, 1000, BigDecimal.ROUND_HALF_UP));
+        }
+
+        System.out.println(e);
+    }
+}"
+32,"Print the Euler–Mascheroni constant γ (gamma) to the first 1,000 decimal places.","import java.math.BigDecimal;
+
+public class EulerMascheroniConstant {
+    public static void main(String[] args) {
+        BigDecimal eulerMascheroni = BigDecimal.ZERO;
+        for (int n = 1; n <= 100000; n++) {
+            eulerMascheroni = eulerMascheroni.add(BigDecimal.ONE.divide(BigDecimal.valueOf(n), 1000, BigDecimal.ROUND_HALF_UP));
+            if (n % 1000 == 0) {
+                System.out.println(""Euler–Mascheroni constant γ (gamma) to the first "" + n + "" decimal places: "" + eulerMascheroni.subtract(BigDecimal.valueOf(Math.log(n))).toString());
+            }
+        }
+        System.out.println(""Euler–Mascheroni constant γ (gamma) to the first 1000 decimal places: "" + eulerMascheroni.subtract(BigDecimal.valueOf(Math.log(100000))).toString());
+    }
+}
+    "
+33,"Print the following hex ASCII table, taken from man 7 ascii.
+
+   2 3 4 5 6 7
+ -------------
+0:   0 @ P ` p
+1: ! 1 A Q a q
+2: "" 2 B R b r
+3: # 3 C S c s
+4: $ 4 D T d t
+5: % 5 E U e u
+6: & 6 F V f v
+7: ' 7 G W g w
+8: ( 8 H X h x
+9: ) 9 I Y i y
+A: * : J Z j z
+B: + ; K [ k {
+C: , < L \ l |
+D: - = M ] m }
+E: . > N ^ n ~
+F: / ? O _ o DEL","public class AsciiTable {
+    public static void main(String[] args) {
+        System.out.println(""    2 3 4 5 6 7 "");
+        System.out.println(""  -------------"");
+        for (int i = 0; i < 16; i++) {
+            String hex = Integer.toHexString(i).toUpperCase();
+            System.out.print(hex + "": "");
+            for (int j = 0; j < 6; j++) {
+                int value = i * 6 + j;
+                if (value <= 127) {
+                    char c = (char) value;
+                    System.out.print(c + "" "");
+                }
+            }
+            System.out.println();
+        }
+    }
+}
+    "
+34,"Print the following tongue twisters with a blank line between each one:
+
+How much wood would a woodchuck chuck,
+If a woodchuck could chuck wood?
+A woodchuck would chuck all the wood he could chuck
+If a woodchuck would chuck wood.
+
+Peter Piper picked a peck of pickled peppers.
+A peck of pickled peppers Peter Piper picked.
+If Peter Piper picked a peck of pickled peppers,
+Where's the peck of pickled peppers Peter Piper picked?
+
+She sells seashells by the seashore,
+The shells she sells are seashells, I'm sure.
+So if she sells seashells on the seashore,
+Then I'm sure she sells seashore shells.","public class TongueTwisters {
+
+    public static void main(String[] args) {
+        System.out.println(""How much wood would a woodchuck chuck,\n"" +
+                ""If a woodchuck could chuck wood?\n"" +
+                ""A woodchuck would chuck all the wood he could chuck\n"" +
+                ""If a woodchuck would chuck wood.\n"");
+
+        System.out.println(""Peter Piper picked a peck of pickled peppers.\n"" +
+                ""A peck of pickled peppers Peter Piper picked.\n"" +
+                ""If Peter Piper picked a peck of pickled peppers,\n"" +
+                ""Where's the peck of pickled peppers Peter Piper picked?\n"");
+
+        System.out.println(""She sells seashells by the seashore,\n"" +
+                ""The shells she sells are seashells, I'm sure.\n"" +
+                ""So if she sells seashells on the seashore,\n"" +
+                ""Then I'm sure she sells seashore shells."");
+    }
+}
+    "
+35,"Print the Golden ratio φ (phi) to the first 1,000 decimal places.","import java.math.BigDecimal;
+
+public class GoldenRatio {
+    public static void main(String[] args) {
+        int decimalPlaces = 1000;
+        BigDecimal phi = BigDecimal.valueOf(Math.sqrt(5)).add(BigDecimal.ONE).divide(BigDecimal.valueOf(2), decimalPlaces, BigDecimal.ROUND_HALF_UP);
+        System.out.println(phi);
+    }
+}
+    "
+36,"Print the lyrics to the song 99 Bottles of Beer:
+
+99 bottles of beer on the wall, 99 bottles of beer.
+Take one down and pass it around, 98 bottles of beer on the wall.
+
+98 bottles of beer on the wall, 98 bottles of beer.
+Take one down and pass it around, 97 bottles of beer on the wall.
+
+…
+
+1 bottle of beer on the wall, 1 bottle of beer.
+Take one down and pass it around, no more bottles of beer on the wall.
+
+No more bottles of beer on the wall, no more bottles of beer.
+Go to the store and buy some more, 99 bottles of beer on the wall.","public class BeerSong {
+    public static void main(String[] args) {
+        for (int i = 99; i >= 1; i--) {
+            System.out.println(i + "" bottles of beer on the wall, "" + i + "" bottles of beer."");
+            if (i > 1) {
+                System.out.println(""Take one down and pass it around, "" + (i-1) + "" bottles of beer on the wall."");
+            } else {
+                System.out.println(""Take one down and pass it around, no more bottles of beer on the wall."");
+            }
+        }
+        System.out.println(""No more bottles of beer on the wall, no more bottles of beer."");
+        System.out.println(""Go to the store and buy some more, 99 bottles of beer on the wall."");
+    }
+}
+    "
+37,"Print the numbers from 1 to 1,000 inclusive, each on their own line.
+
+If, however, the number is a multiple of two then print Foo instead, if the number is a multiple of three then print Fizz, if the number is a multiple of five then print Buzz, and if the number is a multiple of seven then print Bar.
+
+If multiple conditions hold true then all replacements should be printed, for example 15 should print FizzBuzz.","public class Main {
+    public static void main(String[] args) {
+        for (int i = 1; i <= 1000; i++) {
+            if (i % 2 == 0) {
+                System.out.print(""Foo"");
+            }
+
+            if (i % 3 == 0) {
+                System.out.print(""Fizz"");
+            }
+
+            if (i % 5 == 0) {
+                System.out.print(""Buzz"");
+            }
+
+            if (i % 7 == 0) {
+                System.out.print(""Bar"");
+            }
+
+            if (i % 2 != 0 && i % 3 != 0 && i % 5 != 0 && i % 7 != 0) {
+                System.out.print(i);
+            }
+
+            System.out.println();
+        }
+    }
+}
+    "
+38,"Print π (pi) to the first 1,000 decimal places.","import java.math.BigDecimal;
+import java.math.RoundingMode;
+
+public class Pi1000 {
+    public static void main(String[] args) {
+        BigDecimal pi = new BigDecimal(""3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679"");
+
+        pi = pi.setScale(1000, RoundingMode.DOWN);
+
+        System.out.println(pi);
+    }
+}
+"
+39,"RPN (Reverse Polish notation) is a way of writing expressions such that operators are written after their operands: 3 2 + rather than (3+2).
+
+Each argument is an RPN expression, given as a space-separated list of tokens: either a number 0…32767 or an operator (addition +, subtraction -, multiplication * or integer division /).
+
+Evaluate and print the result of each expression on its own line.
+
+The result of each operation is a non-negative integer not exceeding 32,767. Division is guaranteed to have an exact integer result.","import java.util.Scanner;
+import java.util.Stack;
+
+public class RPNCalculator {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        while (sc.hasNextLine()) {
+            String line = sc.nextLine();
+            String[] tokens = line.split("" "");
+            Stack<Integer> stack = new Stack<>();
+            for (String token : tokens) {
+                switch (token) {
+                    case ""+"":
+                        stack.push(stack.pop() + stack.pop());
+                        break;
+                    case ""-"":
+                        int b = stack.pop();
+                        int a = stack.pop();
+                        stack.push(a - b);
+                        break;
+                    case ""*"":
+                        stack.push(stack.pop() * stack.pop());
+                        break;
+                    case ""/"":
+                        b = stack.pop();
+                        a = stack.pop();
+                        stack.push(a / b);
+                        break;
+                    default:
+                        stack.push(Integer.parseInt(token));
+                }
+            }
+            System.out.println(stack.pop());
+        }
+    }
+}
+    "
+40,"Starting from a(0) = 0, each term of the sequence is a(n) = a(n-1) − n but only if a(n) > 0 and it has not previously generated. In case the condition doesn't hold, a(n) = a(n-1) + n.
+
+Print the first 250 terms of the sequence one per line.","public class Main {
+    public static void main(String[] args) {
+        int[] sequence = new int[250];
+        sequence[0] = 0;
+        System.out.println(sequence[0]);
+        for (int i = 1; i < sequence.length; i++) {
+            if (sequence[i-1] - i > 0 && notGenerated(sequence, sequence[i-1] - i, i)) {
+                sequence[i] = sequence[i-1] - i;
+                System.out.println(sequence[i]);
+            } else {
+                sequence[i] = sequence[i-1] + i;
+                System.out.println(sequence[i]);
+            }
+        }
+    }
+
+    private static boolean notGenerated(int[] sequence, int num, int index) {
+        for (int i = 0; i < index; i++) {
+            if (sequence[i] == num) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+    "
+41,"The Collatz conjecture states that, for any positive integer n, it will eventually reach 1 by repeatedly applying the following procedure:
+
+If n is even, divide it by 2.
+If n is odd, multiply by 3 and then add 1.
+The number of steps needed for n to reach 1 is called its stopping time. For example, the stopping time of 10 is six:
+
+10 → 5 → 16 → 8 → 4 → 2 → 1
+
+Print the stopping times of all the numbers from 1 to 1,000 inclusive, each on their own line.","public class CollatzConjecture {
+    public static void main(String[] args) {
+        for (int i = 1; i <= 1000; i++) {
+            int n = i;
+            int steps = 0;
+            while (n != 1) {
+                if (n % 2 == 0) { // if n is even
+                    n /= 2;
+                } else { // if n is odd
+                    n = n * 3 + 1;
+                }
+                steps++;
+            }
+            System.out.println(steps);
+        }
+    }
+}"
+42,"The Fibonacci numbers are a numerical sequence in which each number is the sum of the two preceding numbers: 0, 1, 1, 2, 3, 5, 8, 13…
+
+Print the first 31 Fibonacci numbers from F0 = 0 to F30 = 832040 (inclusive), each on a separate line.","public class FibonacciSequence {
+    public static void main(String[] args) {
+        int limit = 31, a = 0, b = 1, c;
+        System.out.println(a);
+        System.out.println(b);
+        for (int i = 2; i <= limit; i++) {
+            c = a + b;
+            System.out.println(c);
+            a = b;
+            b = c;
+        }
+    }
+}
+    "
+43,"The Levenshtein distance is the minimum number of single character edits that are needed to transform one word into another. The available edits are deletion, insertion, or substitution of a single character.
+
+For example the Levenshtein distance between “shine” and “train” is 4:
+
+shine → shin (deletion of 'e')
+shin → tshin (insertion of 't')
+tshin → trhin (substitution of 's' for 'r')
+trhin → train (substitution of 'h' for 'a')
+For each pair of words per argument, print the Levenshtein distance on its own line.","public class LevenshteinDistance {
+
+    public static void main(String[] args) {
+
+        if(args.length % 2 != 0){
+            System.out.println(""Invalid number of arguments, enter word pairs only."");
+            System.exit(0);
+        }
+
+        for(int i = 0; i < args.length; i += 2){
+            String word1 = args[i];
+            String word2 = args[i+1];
+
+            int[][] matrix = new int[word1.length()+1][word2.length()+1];
+
+            for(int j = 0; j <= word1.length(); j++){
+                matrix[j][0] = j;
+            }
+
+            for(int j = 0; j <= word2.length(); j++){
+                matrix[0][j] = j;
+            }
+
+            for(int j = 1; j <= word1.length(); j++){
+                for(int k = 1; k <= word2.length(); k++){
+                    if(word1.charAt(j-1) == word2.charAt(k-1)){
+                        matrix[j][k] = matrix[j-1][k-1];
+                    } else {
+                        int delete = matrix[j-1][k] + 1;
+                        int insert = matrix[j][k-1] + 1;
+                        int substitute = matrix[j-1][k-1] + 1;
+                        matrix[j][k] = Math.min(Math.min(delete, insert), substitute);
+                    }
+                }
+            }
+
+            System.out.println(matrix[word1.length()][word2.length()]);
+        }
+    }
+
+}
+    "
+44,"The Look and Say sequence starts with 1 and is continued by looking at each of the runs of the same number in the previous term and combining the length with the original number. For example the next term after 111221 would be 312211 (three ones, two twos and one one).
+
+Print the first 20 terms of the Look and Say sequence.","public class LookAndSaySequence {
+    public static void main(String[] args) {
+        String currentTerm = ""1"";
+        System.out.println(currentTerm);
+
+        for (int i = 1; i < 20; i++) {
+            String nextTerm = generateNextTerm(currentTerm);
+            System.out.println(nextTerm);
+            currentTerm = nextTerm;
+        }
+    }
+
+    private static String generateNextTerm(String currentTerm) {
+        StringBuilder nextTermBuilder = new StringBuilder();
+        char currentNumber = currentTerm.charAt(0);
+        int currentNumberCount = 1;
+
+        // Iterate through the current term and generate the next term
+        for (int i = 1; i < currentTerm.length(); i++) {
+            char nextNumber = currentTerm.charAt(i);
+
+            if (nextNumber == currentNumber) {
+                // If the next number is the same, increment the count
+                currentNumberCount++;
+            } else {
+                // If the next number is different, add the count and number to the next term
+                nextTermBuilder.append(currentNumberCount).append(currentNumber);
+                // Reset the count and current number
+                currentNumberCount = 1;
+                currentNumber = nextNumber;
+            }
+        }
+
+        // Don't forget to append the final count and number
+        nextTermBuilder.append(currentNumberCount).append(currentNumber);
+        return nextTermBuilder.toString();
+    }
+}
+    "
+45,"The lucky numbers are an integer sequence that results from a certain ""sieve"" process:
+
+Start from the odd natural numbers a = 1 3 5 7 … viewed as a 1-indexed infinite sequence.
+
+For each k = 2…∞, replace a with the result of deleting every a[k]-th term from a.
+
+Print the first 1,000 terms of the resulting sequence.
+
+Start:
+    1 3 5 7 9 11 13 15 …
+       ^
+Delete every 3rd term and advance:
+    1 3 7 9 13 15 19 21 …
+          ^
+Delete every 7th term and advance:
+    1 3 7 9 13 15 21 25 …
+             ^","public class LuckyNumbers {
+    public static void main(String[] args) {
+        int[] sequence = new int[1000];
+        int a = 1;
+        int index = 0;
+        while(index < 1000) {
+            sequence[index] = a;
+            int k = 2;
+            while(k <= index+1) {
+                int count = 0;
+                for(int i=0; i<index; i++) {
+                    if(sequence[i] != 0) {
+                        count++;
+                        if(count == k) {
+                            sequence[i] = 0;
+                            count = 0;
+                        }
+                    }
+                }
+                k++;
+            }
+            a++;
+            index++;
+        }
+        for(int i=0; i<1000; i++) {
+            System.out.print(sequence[i] + "" "");
+        }
+    }
+}
+    "
+46,"The nth Catalan number can be expressed as C(n) = binomial(2n,n)/(n+1).
+
+Print the first 100 Catalan numbers, from C(0) to C(99) inclusive, each on their own line.
+
+Note: C(99) is 57 digits long, and is greater than the 187th degree of 2.","public class CatalanNumberGenerator {
+
+    public static void main(String[] args) {
+        for (int n = 0; n <= 99; n++) {
+            long catalanNumber = calculateCatalanNumber(n);
+            System.out.println(catalanNumber);
+        }
+    }
+
+    private static long calculateCatalanNumber(int n) {
+        long numerator = calculateBinomialCoefficient(2 * n, n);
+        long denominator = n + 1;
+        return numerator / denominator;
+    }
+
+    private static long calculateBinomialCoefficient(int n, int k) {
+        long result = 1;
+        for (int i = 1; i <= k; i++) {
+            result *= n - k + i;
+            result /= i;
+        }
+        return result;
+    }
+}
+    "
+47,"The rules of the Van Eck sequence are as follows:
+
+The first term is zero.
+If the last term is new then the next term is zero.
+Otherwise the next term is how far back the term occurred previously.
+The first few terms are as follows:
+
+0         (using a)
+0 0       (using b)
+0 0 1     (using c)
+0 0 1 0   (using b)
+0 0 1 0 2 (using c)
+Print the first 1,000 terms of the Van Eck sequence, with each term on a new line.","public class VanEckSequence {
+    public static void main(String[] args) {
+        int n = 1000; // number of terms to print
+        int[] seq = new int[n]; // initialize an array to store the sequence
+        seq[0] = 0; // first term is always zero
+
+        // loop through to generate new terms
+        for (int i = 1; i < n; i++) {
+            int last = seq[i-1]; // previous term
+            boolean found = false; // flag to determine if term is new
+            for (int j = i-2; j >= 0; j--) {
+                if (seq[j] == last) { // if term is not new
+                    seq[i] = i-1-j; // compute next term
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) { // if term is new
+                seq[i] = 0; // next term is 0
+            }
+        }
+
+        // print the sequence
+        for (int i = 0; i < n; i++) {
+            System.out.println(seq[i]);
+        }
+    }
+}
+    "
+48,"Using pipes and underscores print the argument as if it were displayed on a seven segment display.
+
+For example the number 0123456789 should be displayed as:
+
+ _     _  _     _  _  _  _  _
+|  |  | _| _||_||_ |_   ||_||_|
+|_|  ||_  _|   | _||_|  ||_| _|","import java.util.Scanner;
+
+public class SevenSegmentDisplay {
+
+    public static void main(String[] args) {
+
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.nextLine();
+
+        String[] digits = input.split("""");
+        String[][] segments = new String[][]{
+                {"" "", ""_"", "" ""},
+                {""|"", ""_"", ""|""},
+                {""|"", ""_"", ""|""},
+                {"" "", "" "", "" ""}
+        };
+
+        for (int i = 0; i < segments.length; i++) {
+            for (String digit : digits) {
+                int num = Integer.parseInt(digit);
+                String[] seg = segments[i];
+                System.out.print(seg[0]);
+                System.out.print(num == 1 || num == 4 ? "" "" : seg[1]);
+                System.out.print(seg[2]);
+                System.out.print("" "");
+            }
+            System.out.println();
+        }
+    }
+}
+    "
+49,"We will build a sequence by repeatedly taking inventory. We take inventory each time we add 0 to the sequence. To take inventory we start by counting the number of zeros in the sequence and add the number to the end of the sequence, then we continue by counting the number of ones and add that to the sequence and so on. We stop when we reach a number that is not in the sequence and we add 0 to the sequence then start over.
+
+The first few terms are as follows:
+
+0 1 2 3 4 5
+-----------
+0
+1 1 0
+2 2 2 0
+3 2 4 1 1 0
+4 4 4 1 4 0
+Print the first 1,000 terms of the inventory sequence, each on their own line.","public class InventorySequence {
+    public static void main(String[] args) {
+        int[] sequence = new int[1000]; // initialize an array to store sequence
+        sequence[0] = 0; // first term is always 0
+
+        for (int i = 1; i < sequence.length; i++) {
+            int count = 0; // initialize count of zeros and ones
+            int j = i - 1;
+            while (j >= 0 && sequence[j] != sequence[i - 1]) { // count zeros and ones
+                count++;
+                j--;
+            }
+            sequence[i] = count; // add count to the sequence
+
+            if (i == sequence.length - 1) { // reached end of sequence
+                break;
+            }
+            sequence[i+1] = 0; // add 0 to start a new sequence
+        }
+
+        for (int i = 0; i < sequence.length; i++) {
+            System.out.println(sequence[i]); // print each term on a new line
+        }
+    }
+}
+    "
